@@ -7,5 +7,10 @@
 </head>
 <body>
     <h1>Welcome to shopSphere</h1>
+    <ul>
+        {% for product in products %}
+            <li>{{ product.name }} - ৳{{ product.price }} ({{ product.category.name }})</li>
+        {% endfor %}
+    </ul>
 </body>
 </html>
