@@ -1,16 +1,46 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>ShopSphere</title>
-</head>
-<body>
+  </head>
+  <body>
     <h1>Welcome to shopSphere</h1>
+    <form method="get">
+      <input
+        type="text"
+        name="q"
+        value="{{ q }}"
+        placeholder="Search products"
+      />
+      <button type="submit">Search</button>
+    </form>
+    <h2>Categories</h2>
     <ul>
-        {% for product in products %}
-            <li>{{ product.name }} - ৳{{ product.price }} ({{ product.category.name }})</li>
-        {% endfor %}
+      {% for category in categories %}
+      <li>
+        {% if product.image %}
+        <img
+          src="{{ product.image.url }}"
+          alt="{{ product.name }}"
+          width="80"
+        />
+        {% endif %}
+        <a href="{% url 'category_detail' category.slug %}"
+          >{{ category.name }}</a
+        >
+        
+      </li>
+      {% endfor %}
     </ul>
-</body>
+    <ul>
+      {% for product in products %}
+      <li>
+        <a href="{% url 'product_detail' product.id %}">{{ product.name }}</a>
+        - ৳{{ product.price }} ({{ product.category.name }})
+      </li>
+      {% endfor %}
+    </ul>
+  </body>
 </html>

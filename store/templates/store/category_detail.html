@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+    <meta charset="UTF-8">
+    <title>{{ category.name }}</title>
+</head>
+<body>
+    <a href="{% url 'home' %}">← Back to Home</a>
+
+    <h1>{{ category.name }}</h1>
+    <p>
+    Sort:
+    <a href="?sort=low">price low to high</a> |
+    <a href="?sort=high">price high to low</a>
+</p>
+
+    <ul>
+        {% for product in products %}
+            <li>
+                <a href="{% url 'product_detail' product.id %}">{{ product.name }}</a>
+                - ৳{{ product.price }}
+            </li>
+        {% empty %}
+            <li>No product avail abail in this category</li>
+        {% endfor %}
+    </ul>
+</body>
+</html>
