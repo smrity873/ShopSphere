@@ -1,18 +1,19 @@
-<!DOCTYPE html>
-<html lang="bn">
-<head>
-    <meta charset="UTF-8">
-    <title>Sign Up</title>
-</head>
-<body>
-    <a href="{% url 'home' %}">← Back to Home</a>
+{% extends 'base.html' %}
 
-    <h1>Create account</h1>
+{% block title %}Sign Up{% endblock %}
 
-    <form method="post">
-        {% csrf_token %}
-        {{ form.as_p }}
-        <button type="submit">Sign Up</button>
-    </form>
-</body>
-</html>
+{% block content %}
+<div class="max-w-md mx-auto my-10 bg-blue-200 text-slate-900 rounded-xl shadow-md shadow-blue-950 p-6">
+  <h1 class="text-2xl font-bold text-center mb-4">Create account</h1>
+
+  <form method="post" class="space-y-4 [&_input]:w-full [&_input]:rounded-lg [&_input]:px-3 [&_input]:py-2 [&_input]:bg-white [&_input]:outline-none [&_select]:w-full [&_select]:rounded-lg [&_select]:px-3 [&_select]:py-2 [&_select]:bg-white [&_label]:block [&_label]:font-semibold [&_label]:mb-1 [&_.helptext]:text-xs [&_.helptext]:text-slate-600 [&_.helptext_ul]:list-disc [&_.helptext_ul]:pl-5 [&_.errorlist]:text-sm [&_.errorlist]:text-red-600 [&_.errorlist]:font-medium">
+    {% csrf_token %}
+    {{ form.as_div }}
+    <button type="submit" class="w-full bg-slate-800 text-white py-2 rounded-lg hover:bg-slate-700">Sign Up</button>
+  </form>
+
+  <p class="text-center mt-4 text-sm">
+    আগে থেকেই অ্যাকাউন্ট আছে? <a href="{% url 'login' %}" class="text-blue-700 font-semibold">Login</a>
+  </p>
+</div>
+{% endblock %}

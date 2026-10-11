@@ -1,0 +1,140 @@
+{% load static %}
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>{% block title %}ShopSphere{% endblock %}</title>
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+    <link
+      rel="icon"
+      type="image/jpeg"
+      href="{% static 'images/favicon.jpg' %}"
+    />
+  </head>
+  <body class="bg-blue-100">
+    <nav class="min-h-13 bg-slate-800 text-white">
+      <div
+        class="max-w-7xl mx-auto flex flex-col md:flex-row justify-between px-4 sm:px-6 py-2 gap-3 md:gap-0 items-center"
+      >
+        <a href="{% url 'home' %}">
+          <img
+            class="h-10"
+            src="{% static 'images/logo.png' %}"
+            alt="ShopSphere"
+          />
+        </a>
+
+        <div
+          class="flex flex-col sm:flex-row justify-between gap-3 w-full md:w-auto"
+        >
+          <form
+            method="get"
+            action="{% url 'home' %}"
+            class="flex items-center w-full sm:w-80 md:w-96 bg-blue-300 rounded-lg px-4 py-1"
+          >
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke-width="2"
+              stroke="currentColor"
+              class="w-5 h-5 text-white mr-3 shrink-0"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                d="m21 21-4.35-4.35m2.1-5.4a7.5 7.5 0 1 1-15 0 7.5 7.5 0 0 1 15 0Z"
+              />
+            </svg>
+            <input
+              type="text"
+              name="q"
+              placeholder="Search your product"
+              class="w-full bg-transparent outline-none text-white placeholder-white/80"
+            />
+          </form>
+
+          <div class="flex justify-center items-center gap-4">
+            <a href="#" class="hover:text-blue-300">Cart</a>
+
+            <details class="relative">
+              <summary
+                class="list-none cursor-pointer w-9 h-9 rounded-full bg-blue-300 text-slate-800 font-bold flex items-center justify-center"
+              >
+                {% if user.is_authenticated %} {{ user.username|first|upper }}
+                {% else %}
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke-width="2"
+                  stroke="currentColor"
+                  class="w-5 h-5"
+                >
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    d="M15.75 6a3.75 3.75 0 1 1-7.5 0 3.75 3.75 0 0 1 7.5 0ZM4.5 20.25a7.5 7.5 0 0 1 15 0"
+                  />
+                </svg>
+                {% endif %}
+              </summary>
+
+              <div
+                class="absolute right-0 mt-2 w-48 bg-white text-slate-800 rounded-lg shadow-lg z-50 p-2"
+              >
+                {% if user.is_authenticated %}
+                <p class="px-2 py-1 font-semibold">{{ user.username }}</p>
+                <hr class="my-1" />
+                <form method="post" action="{% url 'logout' %}">
+                  {% csrf_token %}
+                  <button
+                    type="submit"
+                    class="w-full text-left text-red-600 hover:bg-red-50 rounded px-2 py-1"
+                  >
+                    Logout
+                  </button>
+                </form>
+                {% else %}
+                <a
+                  href="{% url 'login' %}"
+                  class="block hover:bg-blue-50 rounded px-2 py-1"
+                  >Login</a
+                >
+                <a
+                  href="{% url 'signup' %}"
+                  class="block hover:bg-blue-50 rounded px-2 py-1"
+                  >Sign Up</a
+                >
+                {% endif %}
+              </div>
+            </details>
+          </div>
+        </div>
+      </div>
+    </nav>
+
+    {% block content %}{% endblock %}
+
+    <footer class="bg-slate-800 text-white mt-10">
+      <div
+        class="max-w-7xl mx-auto px-4 sm:px-6 py-8 flex flex-col sm:flex-row justify-between gap-8"
+      >
+        <div>
+          <h2 class="text-lg font-semibold mb-3">Links</h2>
+          <div class="flex flex-wrap gap-4 text-gray-300">
+            <a href="{% url 'home' %}" class="hover:text-blue-300">Home</a>
+            <a href="#" class="hover:text-blue-300">About</a>
+            <a href="#" class="hover:text-blue-300">Contact</a>
+          </div>
+        </div>
+        <div>
+          <h2 class="text-lg font-semibold mb-3">Contact</h2>
+          <p class="text-gray-300 text-sm">Email: support@shopsphere.com</p>
+          <p class="text-gray-300 text-sm mt-2">Phone: +880 1234-567890</p>
+        </div>
+      </div>
+    </footer>
+  </body>
+</html>

@@ -1,49 +1,55 @@
-<!doctype html>
-<html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>ShopSphere</title>
-  </head>
-  <body>
-    <h1>Welcome to ShopSphere</h1>
+{% extends 'base.html' %}
+{% load static %}
 
-{% if user.is_authenticated %}
-    <p>Hello, {{ user.username }} ({{ user.profile.role }})</p>
-    <form method="post" action="{% url 'logout' %}" style="display:inline">
-        {% csrf_token %}
-        <button type="submit">Logout</button>
-    </form>
-{% else %}
-    <a href="{% url 'login' %}">Login</a> |
-    <a href="{% url 'signup' %}">Sign Up</a>
-{% endif %}
+{% block title %}ShopSphere{% endblock %}
 
-<form method="get">
-    <input type="text" name="q" value="{{ q }}" placeholder="Search products">
-    <button type="submit">Search</button>
-</form>
+{% block content %}
+<div class="relative bg-cover bg-center h-[300px] sm:h-[350px] md:h-[400px]"
+     style="background-image: url('{% static 'images/banner.jpg' %}')">
+  <div class="absolute"></div>
+  <div class="relative max-w-7xl mx-auto h-full flex flex-col justify-center px-4 text-slate-800">
+    <h1 class="mb-5 text-3xl sm:text-4xl md:text-5xl font-bold">WELCOME TO SHOPSPHERE!</h1>
+    <p class="mb-5 text-sm sm:text-base max-w-2xl">
+      সেরা দামে সেরা পণ্য, এক জায়গায়। মোবাইল, ল্যাপটপসহ আরও অনেক কিছু।
+    </p>
+    <a href="#products" class="w-fit bg-slate-800 text-white px-5 py-2 rounded-lg hover:bg-slate-700">
+      Get Started
+    </a>
+  </div>
+</div>
 
-<h2>Categories</h2>
-<ul>
-    {% for category in categories %}
-        <li><a href="{% url 'category_detail' category.slug %}">{{ category.name }}</a></li>
-    {% endfor %}
-</ul>
+<div class="max-w-7xl mx-auto px-4 pt-8 flex flex-wrap gap-3 justify-center">
+  {% for category in categories %}
+    <a href="{% url 'category_detail' category.slug %}"
+       class="bg-blue-200 px-5 py-2 rounded-lg font-semibold hover:bg-blue-300">
+      {{ category.name }}
+    </a>
+  {% endfor %}
+</div>
 
-<h2>Products</h2>
-<ul>
-    {% for product in products %}
-        <li>
-            {% if product.image %}
-                <img src="{{ product.image.url }}" alt="{{ product.name }}" width="80">
-            {% endif %}
-            <a href="{% url 'product_detail' product.id %}">{{ product.name }}</a>
-            - ৳{{ product.price }} ({{ product.category.name }})
-        </li>
-    {% empty %}
-        <li>No project are finding</li>
-    {% endfor %}
-</ul>
-  </body>
-</html>
+<h2 id="products" class="mb-2 text-2xl sm:text-3xl font-semibold text-center pt-8">OUR PRODUCTS</h2>
+
+<div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 max-w-7xl mx-auto px-4 pt-6">
+  {% for product in products %}
+    <div class="bg-blue-200 max-w-full w-72 mx-auto rounded-md px-4 py-4 shadow-md shadow-blue-950">
+      <a href="{% url 'product_detail' product.id %}">
+        {% if product.image %}
+          <img class="w-full h-60 object-contain" src="{{ product.image.url }}" alt="{{ product.name }}">
+        {% else %}
+          <div class="w-full h-60 bg-blue-100 flex items-center justify-center text-slate-500">No image</div>
+        {% endif %}
+      </a>
+      <div class="flex justify-between items-end pt-5">
+        <div>
+          <h3 class="font-bold text-xl">{{ product.name }}</h3>
+          <p class="text-red-500 font-semibold">{{ product.price }} TK</p>
+        </div>
+        <a href="{% url 'product_detail' product.id %}"
+           class="bg-slate-800 text-white px-3 py-1 rounded-lg hover:bg-slate-700">View</a>
+      </div>
+    </div>
+  {% empty %}
+    <p class="col-span-full text-center">কোনো প্রোডাক্ট পাওয়া যায়নি।</p>
+  {% endfor %}
+</div>
+{% endblock %}
